@@ -1,0 +1,189 @@
+local OrionLib = loadstring(game:HttpGet(('https://pastebin.com/raw/ta72U6HK')))()
+local Window = OrionLib:MakeWindow({Name = "Anime Clicker Fight [Z Hub]", HidePremium = false, SaveConfig = false, ConfigFolder = "teste", IntroEnabled = false})
+nextb.Visible = true
+
+
+local twcodes = {"UPDATE2","UPDATE5","BUNNY","WELFARE1","WELFARE2","WELFARE3", "TITAN", "ALLBLUE", "DRAGON","DRAGONBALL", "MASK", "RUSHRUSH", "ONEPIECE", "5KLIKES", "HERO", "MERRYCHRISTMAS", "KONODIODA", "210KLIKES","STANDPOWER", "BLEACHUPDATE7", "NINJAPLACE", "SWEETHOME", "ONEPIECE", "EREN", "LIBERTY", "SAITAMA", "ONEPUNCH", "ACADEMIA", "MIDORIYALZUKU", "GETSUGATENSHOU","BLEACH","SHIPPUDEN","SASUKE"}
+local ws = game.Players.LocalPlayer.Character.Humanoid
+
+
+-- Valores
+getgenv().AutoClick = false;
+getgenv().AutoSpin = false;
+getgenv().TesteSpeed = false;
+getgenv().autoeggs = true;
+
+
+-- Funcoes
+function doClick()
+    while getgenv().AutoClick == true do
+        task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("System"):WaitForChild("SystemClick"):WaitForChild("Click"):FireServer()
+    end
+end
+
+function doSpin()
+    while getgenv().AutoSpin == true do
+        task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("System"):WaitForChild("SystemDailyLottery"):WaitForChild("Spin"):InvokeServer()
+    end
+end
+
+
+-- Tab Main
+local MainTab = Window:MakeTab({
+	Name = "Main",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+MainTab:AddToggle({
+	Name = "Auto Click",
+	Default = false,
+	Callback = function(Value)
+		getgenv().AutoClick = Value
+		doClick();
+	end    
+})
+
+MainTab:AddButton({
+	Name = "Enable Auto Farm",
+	Callback = function()
+	    local args = {
+	        [1] = "isAutoOn",
+	        [2] = 1
+	    }
+	    
+	    game:GetService("ReplicatedStorage"):WaitForChild("ServerMsg"):WaitForChild("Setting"):InvokeServer(unpack(args))
+  	end    
+})
+
+MainTab:AddButton({
+	Name = "Disable Auto Farm",
+	Callback = function()
+	    local args = {
+	        [1] = "isAutoOn",
+	        [2] = 0
+	    }
+	    
+	    game:GetService("ReplicatedStorage"):WaitForChild("ServerMsg"):WaitForChild("Setting"):InvokeServer(unpack(args))
+  	end    
+})
+
+
+-- Tab Eggs
+local EggsTab = Window:MakeTab({
+	Name = "Eggs",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+-- Tab WalkSpeed
+local WalkSpeedTab = Window:MakeTab({
+	Name = "WalkSpeed",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+WalkSpeedTab:AddSlider({
+	Name = "Change Walk Speed",
+	Min = 50,
+	Max = 300,
+	Default = 5,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "Speed",
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+	end    
+})
+
+WalkSpeedTab:AddToggle({
+	Name = "WalkSpeed",
+	Default = false,
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
+	end    
+})
+
+-- Tab Boosts
+local BoostsTab = Window:MakeTab({
+	Name = "Boosts",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+-- Tab Misc
+local MiscTab = Window:MakeTab({
+	Name = "Misc",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+MiscTab:AddToggle({
+	Name = "Auto Claim Free Spin",
+	Default = false,
+	Callback = function(Value)
+		getgenv().AutoSpin = Value
+		doSpin();
+	end    
+})
+
+MiscTab:AddButton({
+	Name = "Redeem All Codes",
+	Callback = function()
+	    for i,v in pairs(twcodes) do
+            game:GetService("ReplicatedStorage"):WaitForChild("ServerMsg"):WaitForChild("Code"):InvokeServer(v)
+        end
+  	end    
+})
+
+MiscTab:AddButton({
+	Name = "FPS Boost",
+	Callback = function()
+	    _G.Settings = {
+    Players = {
+        ["Ignore Me"] = true, -- Ignore your Character
+        ["Ignore Others"] = true -- Ignore other Characters
+    },
+    Meshes = {
+        Destroy = false, -- Destroy Meshes
+        LowDetail = true -- Low detail meshes (NOT SURE IT DOES ANYTHING)
+    },
+    Images = {
+        Invisible = true, -- Invisible Images
+        LowDetail = false, -- Low detail images (NOT SURE IT DOES ANYTHING)
+        Destroy = false, -- Destroy Images
+    },
+    Other = {
+        ["No Particles"] = true, -- Disables all ParticleEmitter, Trail, Smoke, Fire and Sparkles
+        ["No Camera Effects"] = true, -- Disables all PostEffect's (Camera/Lighting Effects)
+        ["No Explosions"] = true, -- Makes Explosion's invisible
+        ["No Clothes"] = true, -- Removes Clothing from the game
+        ["Low Water Graphics"] = true, -- Removes Water Quality
+        ["No Shadows"] = true, -- Remove Shadows
+        ["Low Rendering"] = true, -- Lower Rendering
+        ["Low Quality Parts"] = true -- Lower quality parts
+    }
+}
+loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua"))()
+  	end    
+})
+
+-- Tab Credits
+local CreditsTab = Window:MakeTab({
+	Name = "Credits",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+CreditsTab:AddParagraph("Credits Bellow:","MyName")
+
+CreditsTab:AddParagraph("Join My Discord Server","https://discord.gg/EtVNAuPS")
+
+CreditsTab:AddButton({
+	Name = "Copy Discord Link",
+	Callback = function()
+	    setclipboard("https://discord.gg/EtVNAuPS")
+  	end    
+})
