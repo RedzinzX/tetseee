@@ -11,8 +11,7 @@ local ws = game.Players.LocalPlayer.Character.Humanoid
 getgenv().AutoClick = false;
 getgenv().AutoSpin = false;
 getgenv().TesteSpeed = false;
-getgenv().autoeggs = true;
-
+getgenv().autouse1 = false;
 
 -- Funcoes
 function doClick()
@@ -29,6 +28,23 @@ function doSpin()
     end
 end
 
+function doSpeed()
+    while getgenv().TesteSpeed == true do
+        task.wait()
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 120
+    end
+end
+
+function doUse1()
+    while getgenv().autouse1 == true do
+        task.wait()
+        local args = {
+	        [1] = 101
+	    }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("ServerMsg"):WaitForChild("UseItemByItemID"):InvokeServer(unpack(args))
+    end
+end
 
 -- Tab Main
 local MainTab = Window:MakeTab({
@@ -102,7 +118,8 @@ WalkSpeedTab:AddToggle({
 	Name = "WalkSpeed",
 	Default = false,
 	Callback = function(Value)
-		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
+		getgenv().TesteSpeed = Value
+		doSpeed();
 	end    
 })
 
@@ -111,6 +128,35 @@ local BoostsTab = Window:MakeTab({
 	Name = "Boosts",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
+})
+
+local Section = BoostsTab:AddSection({
+	Name = "Boost Button"
+})
+
+BoostsTab:AddButton({
+	Name = "Use 1.25x Gold",
+	Callback = function()
+	    local args = {
+	        [1] = 101
+	    }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("ServerMsg"):WaitForChild("UseItemByItemID"):InvokeServer(unpack(args))
+  	end    
+})
+
+
+local Section = BoostsTab:AddSection({
+	Name = "Boost Toggle"
+})
+
+BoostsTab:AddToggle({
+	Name = "Auto Use 1.25x Gold",
+	Default = false,
+	Callback = function(Value)
+		getgenv().autouse1 = Value
+		doUse1();
+	end    
 })
 
 -- Tab Misc
